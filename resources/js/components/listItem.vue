@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-      <input type="checkbox" v-model="item.completed">
+      <input type="checkbox" @change="updateTodo()" v-model="item.completed">
       <span :class="['itemText',item.completed? 'completed' : '']">{{item.todo}}</span>
       <button class="edit">
           <font-awesome-icon icon="edit"/>
@@ -13,7 +13,18 @@
 
 <script>
 export default {
-    props:['item']
+    props:['item'],
+    methods:{
+        updateTodo(){
+            axios.post('api/todo/update/'+this.item.id,{
+                completed:this.item.completed
+            }).then(response=>{
+                if(response.status>=200&&response.status<300)[
+                    alert('Item updated succesfully')
+                ]
+            })
+        }
+    }
 }
 </script>
 
