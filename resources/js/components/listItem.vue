@@ -5,7 +5,7 @@
       <button class="edit">
           <font-awesome-icon icon="edit"/>
       </button>
-      <button class="delete">
+      <button class="delete" @click="reloveTodo()">
           <font-awesome-icon icon="trash"/>
       </button>
   </div>
@@ -20,7 +20,16 @@ export default {
                 completed:this.item.completed
             }).then(response=>{
                 if(response.status>=200&&response.status<300)[
-                    alert('Item updated succesfully')
+                    alert('Item updated succesfully'),
+                    this.$emit('reloadTodos')
+                ]
+            })
+        },
+        reloveTodo(){
+            axios.get('api/todo/delete/'+this.item.id).then(response=>{
+                if(response.status>=200&&response.status<300)[
+                    alert('Item deleted succesfully'),
+                    this.$emit('reloadTodos')
                 ]
             })
         }
